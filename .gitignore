@@ -1,0 +1,12 @@
+# Variables de entorno
+.env
+
+# Node modules
+node_modules/
+
+# Archivos de log
+npm-debug.log
+
+# Expo/React Native
+.expo/
+.expo-shared/
