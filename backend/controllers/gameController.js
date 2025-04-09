@@ -1,4 +1,5 @@
 const { getGameDataById } = require("../services/gameService");
+const { registrarPartida } = require("../services/gameService");
 
 const getGameInfo = async (req, res) => {
   try {
@@ -11,5 +12,23 @@ const getGameInfo = async (req, res) => {
   }
 };
 
-module.exports = { getGameInfo };
+const crearPartida = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { gameName, playTime } = req.body;
 
+    const partida = await registrarPartida({ userId, gameName, playTime });
+
+    res.status(201).json({
+      message: "Partida guardada correctamente",
+      partida,
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  getGameInfo,
+  crearPartida
+};
