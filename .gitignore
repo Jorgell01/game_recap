@@ -10,3 +10,4 @@ npm-debug.log
 # Expo/React Native
 .expo/
 .expo-shared/
+node_modules/ 
