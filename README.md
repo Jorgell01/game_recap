@@ -86,7 +86,7 @@ game_recap/
 ## ✍️ Autor
 
 - Jorge A. Herrero Santana  
-- GitHub: [@Jorgel01](https://github.com/Jorgel01)
+- GitHub: [@Jorgell01](https://github.com/Jorgell01)
 
 ---
 
