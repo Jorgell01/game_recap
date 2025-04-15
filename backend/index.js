@@ -2,9 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
-require("dotenv").config();
-require("./passport/steamStrategy"); // 👈 Importa la configuración de Steam
 
+require("dotenv").config();
+const configureSteamStrategy = require("./passport/steamStrategy"); // ✅ importar función
+configureSteamStrategy(); // ✅ ejecutar registro
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -31,7 +32,7 @@ const gameRoutes = require("./routes/gameRoutes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/auth", steamRoutes); // 👈 Rutas de Steam login
+app.use("/api/auth", steamRoutes);
 app.use("/api/game", gameRoutes);
 
 // Ruta de prueba

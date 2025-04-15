@@ -1,5 +1,6 @@
 const { getGameDataById } = require("../services/gameService");
 const { registrarPartida } = require("../services/gameService");
+const { obtenerHistorial } = require("../services/gameService");
 
 const getGameInfo = async (req, res) => {
   try {
@@ -28,7 +29,18 @@ const crearPartida = async (req, res) => {
   }
 };
 
+const getHistorial = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const partidas = await obtenerHistorial(userId);
+    res.json(partidas);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener el historial" });
+  }
+};
+
 module.exports = {
   getGameInfo,
-  crearPartida
+  crearPartida,
+  getHistorial
 };
