@@ -1,6 +1,6 @@
 # 🎮 Game Recap
 
-**Game Recap** es una aplicación para registrar, visualizar y analizar tus sesiones de juego. Permite autenticación por correo y autenticación con Steam. Muestra estadísticas como el tiempo total jugado, media por sesión, y el juego más jugado.
+**Game Recap** es una aplicación para registrar, visualizar y analizar tus sesiones de juego. Permite autenticación por correo y autenticación con Steam. Muestra estadísticas como el tiempo total jugado, media por sesión, y el juego más jugado. Además, facilita la gestión de tus sesiones de juego y proporciona una experiencia personalizada para los jugadores.
 
 ## ✨ Funcionalidades
 
@@ -8,9 +8,13 @@
 - 🎮 Login con cuenta de Steam (OpenID)
 - 🧾 Historial de partidas jugadas
 - 📊 Estadísticas personales de juego
-- ➕ Añadir nuevas sesiones de juego
+  - Tiempo total jugado
+  - Media de tiempo por sesión
+  - Juego más jugado
 - 🔐 Protección de rutas con JWT
 - 🌐 Redirección desde Steam al frontend con token JWT
+- 🔄 Sincronización de datos entre frontend y backend
+- 📂 Gestión de usuarios y sesiones
 
 ## 🛠️ Tecnologías utilizadas
 

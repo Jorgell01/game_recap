@@ -4,7 +4,6 @@ import RegisterForm from "./components/RegisterForm";
 import HistorialPartidas from "./components/HistorialPartidas";
 import LogoutButton from "./components/LogoutButton";
 import Estadisticas from "./components/Estadisticas";
-import AddSessionForm from "./components/AddSessionForm";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -20,7 +19,7 @@ function App() {
     if (tokenFromUrl) {
       localStorage.setItem("token", tokenFromUrl);
       setToken(tokenFromUrl);
-      window.history.replaceState({}, document.title, "/"); // limpia la URL
+      window.history.replaceState({}, document.title, "/");
     }
   }, []);
 
@@ -67,6 +66,30 @@ function App() {
     setUsuarioStats(null);
   };
 
+  // 🔁 Sincronización automática desde Steam
+  const sincronizarSteam = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/game/sync", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(`✅ ${data.message} (${data.total} partidas añadidas)`);
+        cargarDatosUsuario(); // recarga el historial actualizado
+      } else {
+        alert(`❌ ${data.error}`);
+      }
+    } catch (error) {
+      alert("❌ Error al sincronizar partidas desde Steam");
+      console.error(error);
+    }
+  };
+
   return (
     <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
       <h1>🎮 Game Recap</h1>
@@ -98,9 +121,11 @@ function App() {
       ) : (
         <>
           <LogoutButton onLogout={handleLogout} />
+          <button onClick={sincronizarSteam} style={{ marginBottom: "1rem" }}>
+            🔄 Sincronizar partidas desde Steam
+          </button>
           <HistorialPartidas historial={historial} />
           <Estadisticas usuarioStats={usuarioStats} />
-          <AddSessionForm onSessionAdded={cargarDatosUsuario} />
         </>
       )}
     </div>

@@ -1,11 +1,21 @@
-const express = require("express");
-const cors = require("cors");
-const session = require("express-session");
-const passport = require("passport");
+import express from "express";
+import cors from "cors";
+import session from "express-session";
+import passport from "passport";
+import dotenv from "dotenv";
+import configureSteamStrategy from "./passport/steamStrategy.js";
 
-require("dotenv").config();
-const configureSteamStrategy = require("./passport/steamStrategy"); // ✅ importar función
-configureSteamStrategy(); // ✅ ejecutar registro
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import steamRoutes from "./routes/steamRoutes.js";
+import gameRoutes from "./routes/gameRoutes.js";
+
+// 🔧 Cargar variables de entorno
+dotenv.config();
+
+// 🛠️ Inicializar estrategia de Steam
+configureSteamStrategy();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -25,22 +35,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Rutas
-const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes");
-const steamRoutes = require("./routes/steamRoutes");
-const gameRoutes = require("./routes/gameRoutes");
-
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auth", steamRoutes);
 app.use("/api/game", gameRoutes);
 
-// Ruta de prueba
 app.get("/", (req, res) => {
   res.send("🎮 Game Recap API funcionando correctamente.");
 });
 
-// Inicio del servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor backend activo en http://localhost:${PORT}`);
 });

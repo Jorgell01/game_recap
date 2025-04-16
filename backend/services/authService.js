@@ -1,12 +1,10 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
-// Base de datos
-const prisma = require('../prisma/prismaClient');
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import prisma from "../prisma/prismaClient.js"; // ✅ Importación ESM
 
 const registerUser = async ({ username, email, password }) => {
   const userExists = await prisma.user.findUnique({
-    where: { email }
+    where: { email },
   });
 
   if (userExists) throw new Error("Usuario ya registrado");
@@ -17,22 +15,21 @@ const registerUser = async ({ username, email, password }) => {
     data: {
       username,
       email,
-      password: hashedPassword
+      password: hashedPassword,
     },
     select: {
       id: true,
       username: true,
-      email: true
-    }
+      email: true,
+    },
   });
 
   return user;
 };
 
-
 const loginUser = async ({ email, password }) => {
   const user = await prisma.user.findUnique({
-    where: { email }
+    where: { email },
   });
 
   if (!user) throw new Error("Credenciales incorrectas");
@@ -50,11 +47,10 @@ const loginUser = async ({ email, password }) => {
     user: {
       id: user.id,
       username: user.username,
-      email: user.email
+      email: user.email,
     },
-    token
+    token,
   };
 };
 
-
-module.exports = { registerUser, loginUser };
+export { registerUser, loginUser };

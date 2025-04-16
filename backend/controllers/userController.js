@@ -1,16 +1,16 @@
-const { getUserStats } = require("../services/gameService");
-const { PrismaClient } = require("@prisma/client");
+import { getUserStats } from "../services/gameService.js";
+import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
-
-const getProfile = (req, res) => {
+export const getProfile = (req, res) => {
   res.json({
     message: "Perfil del usuario",
     user: req.user
   });
 };
 
-const getStats = async (req, res) => {
+export const getStats = async (req, res) => {
   try {
     const userId = req.user.id;
     const stats = await getUserStats(userId);
@@ -20,12 +20,12 @@ const getStats = async (req, res) => {
   }
 };
 
-const getUserHistory = async (req, res) => {
+export const getUserHistory = async (req, res) => {
   try {
     const userId = req.user.id;
     const history = await prisma.gameSession.findMany({
       where: { userId },
-      orderBy: { playedAt: 'desc' }
+      orderBy: { lastPlayed: 'desc' }
     });
 
     res.json(history);
@@ -33,6 +33,3 @@ const getUserHistory = async (req, res) => {
     res.status(500).json({ error: "No se pudo obtener el historial de partidas" });
   }
 };
-
-module.exports = { getProfile, getStats, getUserHistory };
-

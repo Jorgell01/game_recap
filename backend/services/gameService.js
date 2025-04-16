@@ -1,4 +1,6 @@
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
+import axios from "axios";
+
 const prisma = new PrismaClient();
 
 const registrarPartida = async ({ userId, gameName, playTime }) => {
@@ -6,7 +8,7 @@ const registrarPartida = async ({ userId, gameName, playTime }) => {
     data: {
       userId,
       gameName,
-      playTime,
+      playTime, // minutos reales
     },
   });
 };
@@ -14,7 +16,7 @@ const registrarPartida = async ({ userId, gameName, playTime }) => {
 const obtenerHistorial = async (userId) => {
   return await prisma.gameSession.findMany({
     where: { userId },
-    orderBy: { playedAt: "desc" },
+    orderBy: { lastPlayed: "desc" },
   });
 };
 
@@ -31,12 +33,11 @@ const getGameDataById = async (gameId) => {
   }
 
   return gameData;
-}
+};
 
 const getUserStats = async (userId) => {
-  // 1. Obtener todas las partidas del usuario
   const partidas = await prisma.gameSession.findMany({
-    where: { userId }
+    where: { userId },
   });
 
   if (partidas.length === 0) {
@@ -44,16 +45,14 @@ const getUserStats = async (userId) => {
       totalGames: 0,
       totalPlayTime: 0,
       averageSessionTime: 0,
-      favoriteGame: null
+      favoriteGame: null,
     };
   }
 
-  // 2. Procesar estadísticas
-  const totalPlayTime = partidas.reduce((acc, p) => acc + p.playTime, 0);
+  const totalPlayTime = partidas.reduce((acc, p) => acc + p.playTime, 0); // en minutos
   const totalGames = partidas.length;
-  const averageSessionTime = Math.round(totalPlayTime / totalGames);
+  const averageSessionTime = Math.round(totalPlayTime / totalGames); // también en minutos
 
-  // 3. Calcular juego más jugado
   const playTimeByGame = {};
   partidas.forEach(({ gameName, playTime }) => {
     playTimeByGame[gameName] = (playTimeByGame[gameName] || 0) + playTime;
@@ -67,13 +66,54 @@ const getUserStats = async (userId) => {
     totalGames,
     totalPlayTime,
     averageSessionTime,
-    favoriteGame
+    favoriteGame,
   };
 };
 
-module.exports = {
+const obtenerJuegosDesdeSteam = async (steamId) => {
+  const url = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${process.env.STEAM_API_KEY}&steamid=${steamId}&include_appinfo=true&include_played_free_games=true`;
+
+  const response = await axios.get(url);
+  return response.data.response.games || [];
+};
+
+const sincronizarPartidasSteam = async (user) => {
+  if (!user.steamId) return;
+
+  const partidas = await obtenerPartidasDesdeSteam(user.steamId);
+
+  for (const juego of partidas) {
+    const existente = await prisma.gameSession.findFirst({
+      where: {
+        userId: user.id,
+        gameName: juego.gameName,
+      },
+      orderBy: {
+        lastPlayed: "desc", // Aquí ya usamos lastPlayed
+      },
+    });
+
+    const tiempoSteam = juego.playtime_forever; // minutos
+    const ultimaFechaJugado = new Date(juego.last_played * 1000); // Convierte de timestamp de Steam
+
+    if (!existente || tiempoSteam > existente.playTime) {
+      await prisma.gameSession.create({
+        data: {
+          userId: user.id,
+          gameName: juego.gameName,
+          playTime: tiempoSteam,
+          lastPlayed: ultimaFechaJugado, // Asigna la última fecha jugada de Steam
+        },
+      });
+    }
+  }
+};
+
+export {
   registrarPartida,
   getGameDataById,
   obtenerHistorial,
-  getUserStats
+  getUserStats,
+  obtenerJuegosDesdeSteam,
+  sincronizarPartidasSteam,
 };

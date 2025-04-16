@@ -1,9 +1,8 @@
-const passport = require("passport");
-const SteamStrategy = require("passport-steam").Strategy;
-const prisma = require("../prisma/prismaClient");
+import passport from "passport";
+import { Strategy as SteamStrategy } from "passport-steam";
+import prisma from "../prisma/prismaClient.js";
 
 function configureSteamStrategy() {
-  console.log("✅ Steam strategy cargada");
 
   passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -40,4 +39,4 @@ function configureSteamStrategy() {
   );
 }
 
-module.exports = configureSteamStrategy;
+export default configureSteamStrategy;

@@ -17,6 +17,11 @@ const Estadisticas = () => {
 
         if (!res.ok) throw new Error("No se pudieron cargar las estadísticas");
         const data = await res.json();
+
+        // Convertir tiempos de minutos a horas
+        data.totalPlayTime = (data.totalPlayTime / 60).toFixed(1); // Total en horas
+        data.averageSessionTime = (data.averageSessionTime / 60).toFixed(1); // Promedio en horas
+
         setStats(data);
       } catch (err) {
         setError(err.message);
@@ -34,8 +39,8 @@ const Estadisticas = () => {
       <h2>📈 Estadísticas</h2>
       <ul>
         <li><strong>Partidas jugadas:</strong> {stats.totalGames}</li>
-        <li><strong>Tiempo total jugado:</strong> {stats.totalPlayTime} min</li>
-        <li><strong>Media por sesión:</strong> {stats.averageSessionTime} min</li>
+        <li><strong>Tiempo total jugado:</strong> {stats.totalPlayTime} horas</li>
+        <li><strong>Media por sesión:</strong> {stats.averageSessionTime} horas</li>
         <li><strong>Juego favorito:</strong> {stats.favoriteGame}</li>
       </ul>
     </div>
