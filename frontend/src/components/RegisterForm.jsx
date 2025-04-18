@@ -22,18 +22,16 @@ const RegisterForm = ({ onRegister }) => {
     try {
       const res = await fetch("http://localhost:3000/api/auth/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
       });
 
       if (!res.ok) throw new Error("No se pudo registrar");
 
       const data = await res.json();
-      localStorage.setItem("token", data.token); // Te loguea automáticamente
+      localStorage.setItem("token", data.token);
       if (onRegister) onRegister();
-    } catch (err) {
+    } catch {
       setError("❌ Error al registrar: correo ya usado o fallo de servidor.");
     } finally {
       setLoading(false);
@@ -41,38 +39,81 @@ const RegisterForm = ({ onRegister }) => {
   };
 
   return (
-    <div style={{ marginBottom: "2rem" }}>
-      <h2>📝 Registro</h2>
-      <form onSubmit={handleSubmit}>
+    <div style={styles.formContainer}>
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <label style={styles.label}>Nombre de usuario</label>
         <input
           type="text"
-          placeholder="Nombre de usuario"
+          placeholder="Tu nombre"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-        /><br /><br />
+          style={styles.input}
+        />
 
+        <label style={styles.label}>Correo electrónico</label>
         <input
           type="email"
-          placeholder="Correo"
+          placeholder="correo@ejemplo.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-        /><br /><br />
+          style={styles.input}
+        />
 
+        <label style={styles.label}>Contraseña</label>
         <input
           type="password"
-          placeholder="Contraseña"
+          placeholder="••••••••"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        /><br /><br />
+          style={styles.input}
+        />
 
-        <button type="submit" disabled={loading}>
+        {error && <p style={styles.error}>{error}</p>}
+
+        <button type="submit" style={styles.button} disabled={loading}>
           {loading ? "Registrando..." : "Crear cuenta"}
         </button>
       </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
+};
+
+const styles = {
+  formContainer: {
+    width: "100%",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+  },
+  label: {
+    fontWeight: "bold",
+    color: "#333",
+    fontFamily: "var(--font-body)",
+  },
+  input: {
+    padding: "0.75rem 1rem",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    fontSize: "1rem",
+    fontFamily: "var(--font-body)",
+  },
+  button: {
+    backgroundColor: "#2A5CAA",
+    color: "white",
+    padding: "0.75rem 1.2rem",
+    borderRadius: "8px",
+    fontWeight: "600",
+    border: "none",
+    fontSize: "1rem",
+    cursor: "pointer",
+  },
+  error: {
+    color: "#E91E63",
+    fontSize: "0.95rem",
+    fontWeight: "bold",
+  },
 };
 
 export default RegisterForm;

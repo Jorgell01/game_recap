@@ -1,0 +1,73 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--color-card);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-family: var(--font-title);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-left .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.navbar-links a {
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar-links a:hover {
+  color: var(--color-primary);
+}
+
+.navbar-links button {
+  background-color: transparent;
+  border: none;
+  color: var(--color-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.navbar-links button:hover {
+  color: #d84315;
+}
+
+[data-theme="dark"] .navbar {
+  background-color: #1e1e1e;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .navbar-left .logo {
+  color: #90caf9;
+}
+
+[data-theme="dark"] .navbar-links a {
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .navbar-links a:hover {
+  color: #90caf9;
+}
+
+[data-theme="dark"] .navbar-links button {
+  color: #ff8a65;
+}
+
+[data-theme="dark"] .navbar-links button:hover {
+  color: #ff7043;
+}

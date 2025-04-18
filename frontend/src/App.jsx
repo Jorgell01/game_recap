@@ -1,133 +1,50 @@
 import { useEffect, useState } from "react";
-import LoginForm from "./components/LoginForm";
-import RegisterForm from "./components/RegisterForm";
-import HistorialPartidas from "./components/HistorialPartidas";
-import LogoutButton from "./components/LogoutButton";
-import Estadisticas from "./components/Estadisticas";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
+import ThemeToggleButton from "./components/ThemeToggleButton";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [historial, setHistorial] = useState([]);
-  const [usuarioStats, setUsuarioStats] = useState(null);
-  const [mostrarRegistro, setMostrarRegistro] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // 🔍 Detecta token desde la URL si viene de Steam
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(location.search);
     const tokenFromUrl = params.get("token");
 
     if (tokenFromUrl) {
       localStorage.setItem("token", tokenFromUrl);
       setToken(tokenFromUrl);
-      window.history.replaceState({}, document.title, "/");
+      navigate("/dashboard");
     }
-  }, []);
-
-  const cargarDatosUsuario = async () => {
-    try {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      const [resHistorial, resStats] = await Promise.all([
-        fetch("http://localhost:3000/api/user/history", { headers }),
-        fetch("http://localhost:3000/api/user/stats", { headers }),
-      ]);
-
-      if (!resHistorial.ok || !resStats.ok) {
-        throw new Error("Error cargando datos del usuario");
-      }
-
-      const dataHistorial = await resHistorial.json();
-      const dataStats = await resStats.json();
-
-      setHistorial(dataHistorial);
-      setUsuarioStats(dataStats);
-    } catch (err) {
-      console.error("❌ Error al cargar datos:", err.message);
-    }
-  };
-
-  useEffect(() => {
-    if (token) {
-      cargarDatosUsuario();
-    }
-  }, [token]);
-
-  const handleLogin = () => {
-    const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-    setHistorial([]);
-    setUsuarioStats(null);
-  };
-
-  // 🔁 Sincronización automática desde Steam
-  const sincronizarSteam = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/game/sync", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert(`✅ ${data.message} (${data.total} partidas añadidas)`);
-        cargarDatosUsuario(); // recarga el historial actualizado
-      } else {
-        alert(`❌ ${data.error}`);
-      }
-    } catch (error) {
-      alert("❌ Error al sincronizar partidas desde Steam");
-      console.error(error);
-    }
-  };
+  }, [location.search, navigate]);
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>🎮 Game Recap</h1>
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          position: "fixed",
+          top: "1rem",
+          right: "1rem",
+          zIndex: 1000,
+          backgroundColor: "rgba(0, 0, 0, 0.05)",
+          borderRadius: "12px",
+          padding: "0.5rem",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+        }}
+      >
+        <ThemeToggleButton />
+      </div>
 
-      {!token ? (
-        <>
-          {mostrarRegistro ? (
-            <>
-              <RegisterForm onRegister={handleLogin} />
-              <p>
-                ¿Ya tienes cuenta?{" "}
-                <button onClick={() => setMostrarRegistro(false)}>
-                  Iniciar sesión
-                </button>
-              </p>
-            </>
-          ) : (
-            <>
-              <LoginForm onLogin={handleLogin} />
-              <p>
-                ¿No tienes cuenta?{" "}
-                <button onClick={() => setMostrarRegistro(true)}>
-                  Registrarse
-                </button>
-              </p>
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          <LogoutButton onLogout={handleLogout} />
-          <button onClick={sincronizarSteam} style={{ marginBottom: "1rem" }}>
-            🔄 Sincronizar partidas desde Steam
-          </button>
-          <HistorialPartidas historial={historial} />
-          <Estadisticas usuarioStats={usuarioStats} />
-        </>
-      )}
+      <Routes>
+        <Route path="/" element={<Navigate to={token ? "/dashboard" : "/login"} />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/dashboard/*"
+          element={token ? <DashboardPage /> : <Navigate to="/login" />}
+        />
+      </Routes>
     </div>
   );
 }

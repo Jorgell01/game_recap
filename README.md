@@ -1,44 +1,53 @@
 # 🎮 Game Recap
 
-**Game Recap** es una aplicación para registrar, visualizar y analizar tus sesiones de juego. Permite autenticación por correo y autenticación con Steam. Muestra estadísticas como el tiempo total jugado, media por sesión, y el juego más jugado. Además, facilita la gestión de tus sesiones de juego y proporciona una experiencia personalizada para los jugadores.
+**Game Recap** es una aplicación web que te permite registrar, visualizar y analizar tus sesiones de juego. Soporta autenticación tradicional y por Steam, y ofrece estadísticas detalladas sobre tus hábitos de juego, todo con una interfaz moderna y ligera.
 
 ## ✨ Funcionalidades
 
-- 🔐 Login tradicional con email/contraseña
-- 🎮 Login con cuenta de Steam (OpenID)
-- 🧾 Historial de partidas jugadas
-- 📊 Estadísticas personales de juego
-  - Tiempo total jugado
-  - Media de tiempo por sesión
-  - Juego más jugado
+- 🔐 Autenticación por email y contraseña
+- 🎮 Login con cuenta de Steam (vía OpenID)
+- 📋 Historial de sesiones de juego
+- 📊 Estadísticas personales:
+  - ⏱️ Tiempo total jugado
+  - 🕒 Media de tiempo por sesión
+  - 🥇 Juego más jugado
 - 🔐 Protección de rutas con JWT
-- 🌐 Redirección desde Steam al frontend con token JWT
-- 🔄 Sincronización de datos entre frontend y backend
+- 🔄 Sincronización frontend ↔ backend
+- 🌙 Selector de tema claro/oscuro
 - 📂 Gestión de usuarios y sesiones
+
+---
 
 ## 🛠️ Tecnologías utilizadas
 
-### Frontend
-- React + Vite
-- Hooks (useState, useEffect)
-- Estilos CSS simples
-- LocalStorage para guardar sesión
+### ⚛️ Frontend
 
-### Backend
+- React + Vite
+- React Router DOM
+- Recharts (gráficos estadísticos)
+- CSS clásico (con variables y temas)
+- LocalStorage (persistencia de sesión y tema)
+- Context API (gestión de tema global)
+
+### 🌐 Backend
+
 - Node.js + Express
 - Prisma ORM + SQLite
-- Passport (JWT + Steam OpenID)
-- Dotenv para variables de entorno
+- Passport (estrategias JWT y Steam OpenID)
+- dotenv para configuración sensible
 
-## 🧪 Cómo usar
+---
+
+## 🚀 Cómo ejecutar el proyecto
+
+### 1. Clona el repositorio
 
 ```bash
-# Clona el repositorio
-git clone https://github.com/Jorgel01/game_recap.git
+git clone https://github.com/Jorgell01/game_recap.git
 cd game_recap
 ```
 
-### Backend
+### 2. Inicia el backend
 
 ```bash
 cd backend
@@ -46,7 +55,7 @@ npm install
 npm run dev
 ```
 
-### Frontend
+### 3. Inicia el frontend
 
 ```bash
 cd ../frontend
@@ -54,18 +63,23 @@ npm install
 npm run dev
 ```
 
-La app estará disponible en `http://localhost:5173` y el backend en `http://localhost:3000`.
+📍 Abre `http://localhost:5173` en tu navegador.  
+La API estará corriendo en `http://localhost:3000`.
 
-## 🧾 Variables de entorno
+---
 
-### `.env` del backend:
+## ⚙️ Variables de entorno
 
-```
+Crea un archivo `.env` dentro de la carpeta `backend/`:
+
+```env
 PORT=3000
 JWT_SECRET=tu_clave_secreta
 STEAM_API_KEY=tu_clave_steam
 BASE_URL=http://localhost:3000
 ```
+
+---
 
 ## 📂 Estructura del proyecto
 
@@ -83,9 +97,14 @@ game_recap/
 │   ├── public/
 │   └── src/
 │       ├── components/
+│       ├── context/
+│       ├── pages/
+│       ├── styles/
 │       └── App.jsx
 └── README.md
 ```
+
+---
 
 ## ✍️ Autor
 
@@ -94,4 +113,5 @@ game_recap/
 
 ---
 
-¡Gracias por probar Game Recap!
+¡Gracias por usar **Game Recap**!  
+¿Ideas, sugerencias o mejoras? ¡No dudes en contribuir! 🚀
