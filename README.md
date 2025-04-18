@@ -1,61 +1,75 @@
 # 🎮 Game Recap
 
-**Game Recap** es una aplicación web que te permite registrar, visualizar y analizar tus sesiones de juego. Soporta autenticación tradicional y por Steam, y ofrece estadísticas detalladas sobre tus hábitos de juego, todo con una interfaz moderna y ligera.
+**Game Recap** es una aplicación web que te permite registrar, visualizar y analizar tus sesiones de juego de forma sencilla y visual. Ofrece estadísticas personalizadas, autenticación con correo o Steam, y una interfaz intuitiva que se adapta a modo claro y oscuro.
 
-## ✨ Funcionalidades
+---
 
-- 🔐 Autenticación por email y contraseña
-- 🎮 Login con cuenta de Steam (vía OpenID)
-- 📋 Historial de sesiones de juego
-- 📊 Estadísticas personales:
-  - ⏱️ Tiempo total jugado
-  - 🕒 Media de tiempo por sesión
-  - 🥇 Juego más jugado
-- 🔐 Protección de rutas con JWT
-- 🔄 Sincronización frontend ↔ backend
-- 🌙 Selector de tema claro/oscuro
-- 📂 Gestión de usuarios y sesiones
+## 🚀 ¿Qué hace esta aplicación?
+
+- Permite a los usuarios iniciar sesión con correo o su cuenta de Steam.
+- Guarda sesiones de juego (nombre del juego, duración, fecha).
+- Muestra un historial detallado de tus partidas jugadas.
+- Genera estadísticas automáticas: tiempo total jugado, promedio por sesión, juego más jugado.
+- Visualiza tus datos con gráficas de barras y gráficos circulares.
+- Ofrece una experiencia personalizada con cambio de tema (claro/oscuro).
 
 ---
 
 ## 🛠️ Tecnologías utilizadas
 
-### ⚛️ Frontend
+### 🔹 Frontend
 
 - React + Vite
 - React Router DOM
-- Recharts (gráficos estadísticos)
-- CSS clásico (con variables y temas)
-- LocalStorage (persistencia de sesión y tema)
-- Context API (gestión de tema global)
+- Recharts (gráficas)
+- Lucide-react (iconos)
+- Context API (para tema claro/oscuro)
+- CSS clásico + variables
 
-### 🌐 Backend
+### 🔸 Backend
 
 - Node.js + Express
-- Prisma ORM + SQLite
-- Passport (estrategias JWT y Steam OpenID)
-- dotenv para configuración sensible
+- Prisma ORM (con SQLite por defecto)
+- Passport.js (JWT y Steam OpenID)
+- JWT para autenticación segura
+- dotenv para variables de entorno
 
 ---
 
-## 🚀 Cómo ejecutar el proyecto
+## 🧪 ¿Cómo usar el proyecto?
 
 ### 1. Clona el repositorio
 
 ```bash
-git clone https://github.com/Jorgell01/game_recap.git
+git clone https://github.com/Jorgel01/game_recap.git
 cd game_recap
 ```
 
-### 2. Inicia el backend
+### 2. Configura el backend
 
 ```bash
 cd backend
 npm install
+npx prisma generate
+npx prisma migrate dev --name init
+```
+
+🔑 Crea un archivo `.env` con:
+
+```
+PORT=3000
+JWT_SECRET=una_clave_secreta
+STEAM_API_KEY=tu_clave_steam
+BASE_URL=http://localhost:3000
+```
+
+Ejecuta el backend:
+
+```bash
 npm run dev
 ```
 
-### 3. Inicia el frontend
+### 3. Configura el frontend
 
 ```bash
 cd ../frontend
@@ -63,25 +77,11 @@ npm install
 npm run dev
 ```
 
-📍 Abre `http://localhost:5173` en tu navegador.  
-La API estará corriendo en `http://localhost:3000`.
+La app se ejecutará en: `http://localhost:5173`
 
 ---
 
-## ⚙️ Variables de entorno
-
-Crea un archivo `.env` dentro de la carpeta `backend/`:
-
-```env
-PORT=3000
-JWT_SECRET=tu_clave_secreta
-STEAM_API_KEY=tu_clave_steam
-BASE_URL=http://localhost:3000
-```
-
----
-
-## 📂 Estructura del proyecto
+## 📦 Estructura del proyecto
 
 ```
 game_recap/
@@ -99,19 +99,37 @@ game_recap/
 │       ├── components/
 │       ├── context/
 │       ├── pages/
-│       ├── styles/
-│       └── App.jsx
+│       ├── App.jsx
+│       └── main.jsx
 └── README.md
 ```
 
 ---
 
-## ✍️ Autor
+## 🧾 Dependencias clave
 
-- Jorge A. Herrero Santana  
-- GitHub: [@Jorgell01](https://github.com/Jorgell01)
+### Backend
+
+- express
+- cors
+- jsonwebtoken
+- prisma / @prisma/client
+- passport / passport-jwt / passport-steam
+- dotenv
+
+### Frontend
+
+- react / react-dom / react-router-dom
+- recharts
+- lucide-react
 
 ---
 
-¡Gracias por usar **Game Recap**!  
-¿Ideas, sugerencias o mejoras? ¡No dudes en contribuir! 🚀
+## 👨‍💻 Autor
+
+- Jorge A. Herrero Santana  
+- GitHub: [@Jorgel01](https://github.com/Jorgel01)
+
+---
+
+¡Gracias por probar Game Recap! Si te gusta, no dudes en dejar una estrella ⭐ en el repo.
