@@ -50,17 +50,16 @@ cd game_recap
 ```bash
 cd backend
 npm install
-npx prisma generate
-npx prisma migrate dev --name init
 ```
 
-🔑 Crea un archivo `.env` con:
+🔑 Crea un archivo `.env` en backend con:
 
 ```
 PORT=3000
 JWT_SECRET=una_clave_secreta
 STEAM_API_KEY=tu_clave_steam
 BASE_URL=http://localhost:3000
+RAWG_API_KEY=tu_clave_rawg_api
 ```
 
 Ejecuta el backend:
@@ -70,6 +69,13 @@ npm run dev
 ```
 
 ### 3. Configura el frontend
+
+🔑 Crea un archivo `.env` en forntend con:
+
+```
+VITE_BASE_URL=http://127.0.0.1:3000
+VITE_RAWG_API_KEY=tu_clave_rawg_api
+```
 
 ```bash
 cd ../frontend
