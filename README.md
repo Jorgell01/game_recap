@@ -1,38 +1,26 @@
+
 # 🎮 Game Recap
 
-**Game Recap** es una aplicación web que te permite registrar, visualizar y analizar tus sesiones de juego de forma sencilla y visual. Ofrece estadísticas personalizadas, autenticación con correo o Steam, y una interfaz intuitiva que se adapta a modo claro y oscuro.
+**Game Recap** es una aplicación web que te permite registrar, visualizar y analizar tus sesiones de juego de forma sencilla y visual. Ofrece estadísticas personalizadas, autenticación con correo o Steam, una experiencia con modo claro/oscuro y una comunidad interactiva con reseñas y favoritos.
 
 ---
 
 ## 🚀 ¿Qué hace esta aplicación?
 
-- Permite a los usuarios iniciar sesión con correo o su cuenta de Steam.
-- Guarda sesiones de juego (nombre del juego, duración, fecha).
-- Muestra un historial detallado de tus partidas jugadas.
-- Genera estadísticas automáticas: tiempo total jugado, promedio por sesión, juego más jugado.
-- Visualiza tus datos con gráficas de barras y gráficos circulares.
-- Ofrece una experiencia personalizada con cambio de tema (claro/oscuro).
-
----
-
-## 🛠️ Tecnologías utilizadas
-
-### 🔹 Frontend
-
-- React + Vite
-- React Router DOM
-- Recharts (gráficas)
-- Lucide-react (iconos)
-- Context API (para tema claro/oscuro)
-- CSS clásico + variables
-
-### 🔸 Backend
-
-- Node.js + Express
-- Prisma ORM (con SQLite por defecto)
-- Passport.js (JWT y Steam OpenID)
-- JWT para autenticación segura
-- dotenv para variables de entorno
+- ✅ **Login con correo o cuenta de Steam**
+- ✅ Guarda tus sesiones de juego (nombre, duración, fecha).
+- ✅ Visualiza un historial detallado con portadas de los juegos.
+- ✅ Consulta estadísticas personalizadas: total jugado, promedio, más jugado.
+- ✅ Cambia entre **modo claro y oscuro** con un solo clic.
+- ✅ Visualiza tus datos con **gráficos interactivos**.
+- ✅ Explora videojuegos desde la **RAWG API** con buscador, géneros y etiquetas.
+- ✅ Haz clic en cualquier juego del historial o explorador para ver su **Game Detail** con:
+  - Portada en alta calidad
+  - Géneros, plataformas, modos de juego
+  - Valoración media y Metacritic
+- ✅ Guarda juegos en tu lista de **Favoritos**
+- ✅ Publica, visualiza y elimina tus **reseñas de usuario**
+- ✅ Diseño **responsive** y animaciones sutiles para una experiencia moderna
 
 ---
 
@@ -52,9 +40,9 @@ cd backend
 npm install
 ```
 
-🔑 Crea un archivo `.env` en backend con:
+🔑 Crea un archivo `.env`:
 
-```
+```env
 PORT=3000
 JWT_SECRET=una_clave_secreta
 STEAM_API_KEY=tu_clave_steam
@@ -62,7 +50,7 @@ BASE_URL=http://localhost:3000
 RAWG_API_KEY=tu_clave_rawg_api
 ```
 
-Ejecuta el backend:
+Ejecuta:
 
 ```bash
 npm run dev
@@ -70,20 +58,58 @@ npm run dev
 
 ### 3. Configura el frontend
 
-🔑 Crea un archivo `.env` en forntend con:
-
+```bash
+cd ../frontend
+npm install
 ```
+
+🔑 Crea un `.env`:
+
+```env
 VITE_BASE_URL=http://127.0.0.1:3000
 VITE_RAWG_API_KEY=tu_clave_rawg_api
 ```
 
+Ejecuta:
+
 ```bash
-cd ../frontend
-npm install
 npm run dev
 ```
 
-La app se ejecutará en: `http://localhost:5173`
+La app estará en: `http://localhost:5173`
+
+---
+
+## 🧩 Funcionalidades nuevas
+
+| Módulo         | Descripción |
+|----------------|-------------|
+| **Game Detail** | Vista detallada de juegos con portada, géneros, plataformas, modos, Metacritic y más |
+| **Reseñas de usuarios** | Crear, visualizar y eliminar reseñas por juego |
+| **Favoritos** | Añadir y eliminar juegos favoritos (❤️🤍), con persistencia en base de datos |
+| **Community Hub** | Explora juegos de RAWG filtrando por búsqueda, género y etiqueta |
+| **Responsive UI** | Toda la app se adapta a móviles/tablets con diseño limpio y moderno |
+| **Modo oscuro/claro** | Tema global personalizable con CSS Variables y animación suave |
+
+---
+
+## 🛠️ Tecnologías utilizadas
+
+### 🔹 Frontend
+
+- React + Vite
+- React Router DOM
+- Recharts
+- Lucide-react
+- Context API (modo oscuro/claro)
+- CSS clásico modular con variables
+
+### 🔸 Backend
+
+- Node.js + Express
+- Prisma ORM (SQLite por defecto)
+- JWT y Passport (con Steam OpenID)
+- dotenv
 
 ---
 
@@ -93,41 +119,31 @@ La app se ejecutará en: `http://localhost:5173`
 game_recap/
 ├── backend/
 │   ├── controllers/
+│   ├── routes/
+│   ├── middleware/
 │   ├── passport/
 │   ├── prisma/
-│   ├── routes/
-│   ├── services/
-│   ├── .env
 │   └── index.js
 ├── frontend/
-│   ├── public/
-│   └── src/
-│       ├── components/
-│       ├── context/
-│       ├── pages/
-│       ├── App.jsx
-│       └── main.jsx
+│   ├── src/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   ├── assets/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+├── .env (ambos)
 └── README.md
 ```
 
 ---
 
-## 🧾 Dependencias clave
+## 📊 Ejemplos visuales
 
-### Backend
-
-- express
-- cors
-- jsonwebtoken
-- prisma / @prisma/client
-- passport / passport-jwt / passport-steam
-- dotenv
-
-### Frontend
-
-- react / react-dom / react-router-dom
-- recharts
-- lucide-react
+- 📷 Historial de partidas con portadas
+- ⭐ Lista de favoritos personalizable
+- ✍️ Publicación de reseñas estilo comunidad Steam
+- 🕵️ Game Detail enriquecido al hacer clic en cualquier juego
 
 ---
 
@@ -138,4 +154,5 @@ game_recap/
 
 ---
 
-¡Gracias por probar Game Recap! Si te gusta, no dudes en dejar una estrella ⭐ en el repo.
+¿Te gusta el proyecto? ¡Déjame una ⭐ en GitHub!  
+¿Tienes ideas o bugs? Abre una issue o haz un PR 💡
