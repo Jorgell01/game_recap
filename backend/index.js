@@ -1,3 +1,4 @@
+// backend/index.js
 import express from "express";
 import cors from "cors";
 import session from "express-session";
@@ -5,11 +6,13 @@ import passport from "passport";
 import dotenv from "dotenv";
 import configureSteamStrategy from "./passport/steamStrategy.js";
 
+// Rutas existentes
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import steamRoutes from "./routes/steamRoutes.js";
 import gameRoutes from "./routes/gameRoutes.js";
-
+import reviewRoutes from "./routes/reviewRoutes.js";
+import favoriteRoutes from "./routes/favoriteRoutes.js";
 
 // 🔧 Cargar variables de entorno
 dotenv.config();
@@ -40,7 +43,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auth", steamRoutes);
 app.use("/api/game", gameRoutes);
-
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/favorites", favoriteRoutes);
 
 app.get("/", (req, res) => {
   res.send("🎮 Game Recap API funcionando correctamente.");

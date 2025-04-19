@@ -30,6 +30,7 @@ export const getUserHistory = async (req, res) => {
 
     res.json(history);
   } catch (error) {
+    console.error("❌ Error al obtener historial:", error);
     res.status(500).json({ error: "No se pudo obtener el historial de partidas" });
   }
 };

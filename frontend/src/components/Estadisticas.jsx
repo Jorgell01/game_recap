@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTheme } from "../context/ThemeContext"; // Importa el contexto del tema
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend
@@ -11,6 +12,7 @@ const COLORS = [
 ];
 
 const Estadisticas = () => {
+  const { theme } = useTheme(); // Obtén el tema actual del contexto
   const [stats, setStats] = useState(null);
   const [porJuego, setPorJuego] = useState([]);
   const [totalGames, setTotalGames] = useState(0);
@@ -58,10 +60,16 @@ const Estadisticas = () => {
     fetchStats();
   }, []);
 
-  if (!stats) return <p className="loading-text">Cargando estadísticas...</p>;
+  if (!stats) return <p className="loading-text"> ⌛ Cargando estadísticas...</p>;
 
   return (
-    <div className="estadisticas-container">
+    <div
+      className="estadisticas-container"
+      style={{
+        backgroundColor: theme === "light" ? "var(--color-background)" : "#242424",
+        color: theme === "light" ? "var(--color-text)" : "#ffffff",
+      }}
+    >
       <h2 className="titulo-seccion">📈 Estadísticas</h2>
 
       <div className="estad-card">

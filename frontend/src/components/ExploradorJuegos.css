@@ -1,0 +1,111 @@
+/* src/components/ExploradorJuegos.css */
+.explorador-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  color: var(--color-text);
+}
+
+.explorador-title {
+  font-size: 2rem;
+  font-family: var(--font-title);
+  color: var(--color-primary);
+}
+
+.explorador-filters {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.explorador-filters input,
+.explorador-filters select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.explorador-filters input::placeholder {
+  color: #888;
+}
+
+.explorador-filters button {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.explorador-filters button:hover {
+  background-color: var(--color-secondary);
+}
+
+.explorador-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.juego-card {
+  background-color: var(--color-card);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.juego-card:hover {
+  transform: scale(1.03);
+}
+
+.juego-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.juego-name {
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+  font-family: var(--font-title);
+  color: var(--color-text);
+}
+
+.explorador-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.explorador-pagination button {
+  padding: 0.4rem 0.8rem;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  border: 1px solid var(--color-primary);
+  border-radius: 6px;
+}
+
+.explorador-pagination button:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.cargando {
+  text-align: center;
+  font-weight: bold;
+  color: var(--color-text);
+}

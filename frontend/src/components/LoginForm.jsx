@@ -1,21 +1,13 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
+import "../components/LoginForm.css";
 
-const LoginForm = () => {
-  const [email, setEmail] = useState("jorge@mail.com");
-  const [password, setPassword] = useState("123456");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+const LoginForm = ({ onLogin }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setError(null);
-
-    if (!validateEmail(email)) return setError("❌ El email no tiene un formato válido.");
-    if (password.trim() === "") return setError("❌ La contraseña no puede estar vacía.");
-
-    setLoading(true);
 
     try {
       const res = await fetch("http://localhost:3000/api/auth/login", {
@@ -24,97 +16,54 @@ const LoginForm = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      if (!res.ok) throw new Error("Credenciales incorrectas");
-
       const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.error || "Error al iniciar sesión");
+        return;
+      }
+
       localStorage.setItem("token", data.token);
-      window.location.href = "/dashboard";
-    } catch {
-      setError("❌ Credenciales inválidas o servidor no disponible.");
-    } finally {
-      setLoading(false);
+      toast.success("¡Sesión iniciada!");
+      onLogin?.();
+    } catch (err) {
+      toast.error("❌ Error al conectar con el servidor");
     }
   };
 
   return (
-    <div style={styles.formContainer}>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <label style={styles.label}>Correo electrónico</label>
-        <input
-          type="email"
-          placeholder="correo@ejemplo.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={styles.input}
-        />
+    <form className="login-form" onSubmit={handleLogin}>
+      <input
+        type="email"
+        placeholder="Correo electrónico"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
 
-        <label style={styles.label}>Contraseña</label>
-        <input
-          type="password"
-          placeholder="••••••••"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={styles.input}
-        />
+      <input
+        type="password"
+        placeholder="Contraseña"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
 
-        {error && <p style={styles.error}>{error}</p>}
+      <button type="submit">Iniciar sesión</button>
 
-        <button type="submit" style={styles.button} disabled={loading}>
-          {loading ? "Conectando..." : "Iniciar sesión"}
-        </button>
+      <hr style={{ margin: "1rem 0", borderColor: "var(--color-card)" }} />
 
-        <hr style={styles.divider} />
-
-        <a href="http://localhost:3000/api/auth/steam" style={{ textAlign: "center" }}>
-          <button type="button" style={{ ...styles.button, backgroundColor: "#FF5722" }}>
-            🚀 Iniciar sesión con Steam
-          </button>
-        </a>
-      </form>
-    </div>
+      <button
+        type="button"
+        className="steam-button"
+        onClick={() => {
+          window.location.href = "http://localhost:3000/api/auth/steam";
+        }}
+      >
+        🎮 Iniciar sesión con Steam
+      </button>
+    </form>
   );
-};
-
-const styles = {
-  formContainer: {
-    width: "100%",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-  },
-  label: {
-    fontWeight: "bold",
-    color: "#333",
-    fontFamily: "var(--font-body)",
-  },
-  input: {
-    padding: "0.75rem 1rem",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    fontSize: "1rem",
-    fontFamily: "var(--font-body)",
-  },
-  button: {
-    backgroundColor: "#2A5CAA",
-    color: "white",
-    padding: "0.75rem 1.2rem",
-    borderRadius: "8px",
-    fontWeight: "600",
-    border: "none",
-    fontSize: "1rem",
-    cursor: "pointer",
-  },
-  error: {
-    color: "#E91E63",
-    fontSize: "0.95rem",
-    fontWeight: "bold",
-  },
-  divider: {
-    margin: "1.5rem 0",
-    borderTop: "1px solid #ddd",
-  },
 };
 
 export default LoginForm;

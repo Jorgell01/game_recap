@@ -1,73 +1,86 @@
+/* src/styles/Navbar.css */
+
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: var(--color-card);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  font-family: var(--font-title);
   position: sticky;
   top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-card);
+  padding: 0.75rem 2rem;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   z-index: 1000;
 }
 
-.navbar-left .logo {
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.navbar-logo {
+  height: 70px;
+  transition: transform 0.3s ease;
+}
+.navbar-logo:hover {
+  transform: scale(1.1);
+}
+
+.navbar-title {
   font-size: 1.5rem;
   font-weight: bold;
+  font-family: var(--font-title);
   color: var(--color-primary);
 }
 
-.navbar-links {
+.navbar-center {
   display: flex;
-  align-items: center;
   gap: 1.2rem;
 }
 
-.navbar-links a {
-  color: var(--color-text);
-  text-decoration: none;
+.navbar-link {
+  font-size: 1rem;
   font-weight: 500;
-  transition: color 0.3s;
-}
-
-.navbar-links a:hover {
-  color: var(--color-primary);
-}
-
-.navbar-links button {
-  background-color: transparent;
+  background: none;
   border: none;
-  color: var(--color-secondary);
-  font-weight: 500;
   cursor: pointer;
-  transition: color 0.3s;
+  color: var(--color-text);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.navbar-links button:hover {
-  color: #d84315;
+.navbar-link:hover {
+  background-color: var(--color-primary);
+  color: #fff;
 }
 
-[data-theme="dark"] .navbar {
-  background-color: #1e1e1e;
-  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-[data-theme="dark"] .navbar-left .logo {
-  color: #90caf9;
+.logout-btn {
+  background-color: transparent;
+  color: var(--color-accent);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+.logout-btn:hover {
+  color: var(--color-accent-dark);
+  transform: scale(1.05);
 }
 
-[data-theme="dark"] .navbar-links a {
-  color: #e0e0e0;
+body[data-theme='light'] .logout-btn {
+  color: #d4004f; /* rosa fuerte en fondo claro */
 }
 
-[data-theme="dark"] .navbar-links a:hover {
-  color: #90caf9;
-}
-
-[data-theme="dark"] .navbar-links button {
-  color: #ff8a65;
-}
-
-[data-theme="dark"] .navbar-links button:hover {
-  color: #ff7043;
+body[data-theme='dark'] .logout-btn {
+  color: #ff4d88; /* rosa claro en fondo oscuro */
 }

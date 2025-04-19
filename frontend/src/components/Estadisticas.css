@@ -17,7 +17,8 @@
   padding: 2rem;
   background-color: var(--color-card);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .stats-list {
@@ -45,10 +46,11 @@
   font-style: italic;
   font-size: 0.95rem;
   text-align: center;
-  color: #777;
+  color: var(--color-muted, #888);
 }
 
 .loading-text {
   padding: 2rem;
   font-size: 1.2rem;
+  color: var(--color-text);
 }

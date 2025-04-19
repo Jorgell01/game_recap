@@ -8,22 +8,51 @@ datasource db {
 }
 
 model User {
-  id        Int           @id @default(autoincrement())
-  username  String?
-  email     String?       @unique
-  password  String?
-  steamId   String?       @unique
-  
+  id       Int     @id @default(autoincrement())
+  username String?
+  email    String? @unique
+  password String?
+  steamId  String? @unique
+
   gameSessions GameSession[]
+  reviews      Review[]      @relation("UserReviews") // 🔧 Relación nombrada
+  favorites    Favorite[] // Nueva tabla de favoritos
 }
 
 model GameSession {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   userId     Int
   gameName   String
   playTime   Int
   lastPlayed DateTime?
-  user       User     @relation(fields: [userId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
 
   @@unique([userId, gameName])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  gameId    String
+  userId    Int
+  username  String
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+
+  user User @relation("UserReviews", fields: [userId], references: [id])
+
+  @@unique([userId, gameId])
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  gameId    String
+  userId    Int
+  gameName  String
+  coverUrl  String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, gameId]) // Evita duplicados por usuario y juego
 }

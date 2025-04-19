@@ -1,26 +1,36 @@
-import { Link, useNavigate } from "react-router-dom";
-import BotonTema from "./BotonTema"; // Asegúrate de tener este componente creado
+// src/components/Navbar.jsx
+import { NavLink, useNavigate } from "react-router-dom";
+import ThemeToggleButton from "./ThemeToggleButton";
 import "./Navbar.css";
 
-const Navbar = ({ onLogout }) => {
+const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    if (onLogout) onLogout();
     navigate("/login");
   };
 
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <span className="logo">🎮 Game Recap</span>
+        <img
+          src="/logo_web.png"
+          alt="Game Recap Logo"
+          className="navbar-logo"
+          onClick={() => navigate("/dashboard")}
+        />
+        <NavLink to="/dashboard/historial">📜 Historial</NavLink>
+        <NavLink to="/dashboard/estadisticas">📊 Estadísticas</NavLink>
+        <NavLink to="/dashboard/community">🎮 Community Hub</NavLink>
+        <NavLink to="/dashboard/favoritos">⭐ Favoritos</NavLink>
       </div>
-      <div className="navbar-links">
-        <Link to="/dashboard/historial">📋 Historial</Link>
-        <Link to="/dashboard/estadisticas">📊 Estadísticas</Link>
-        <BotonTema /> {/* Botón claro/oscuro */}
-        <button onClick={handleLogout}>🚪 Cerrar sesión</button>
+
+      <div className="navbar-right">
+        <ThemeToggleButton />
+        <button onClick={handleLogout} className="logout-btn">
+          📕 Cerrar sesión
+        </button>
       </div>
     </nav>
   );
