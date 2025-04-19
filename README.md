@@ -88,7 +88,6 @@ La app estará en: `http://localhost:5173`
 | **Reseñas de usuarios** | Crear, visualizar y eliminar reseñas por juego |
 | **Favoritos** | Añadir y eliminar juegos favoritos (❤️🤍), con persistencia en base de datos |
 | **Community Hub** | Explora juegos de RAWG filtrando por búsqueda, género y etiqueta |
-| **Responsive UI** | Toda la app se adapta a móviles/tablets con diseño limpio y moderno |
 | **Modo oscuro/claro** | Tema global personalizable con CSS Variables y animación suave |
 
 ---
