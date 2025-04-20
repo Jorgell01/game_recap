@@ -46,7 +46,7 @@ npm install
 PORT=3000
 JWT_SECRET=una_clave_secreta
 STEAM_API_KEY=tu_clave_steam
-BASE_URL=http://localhost:3000
+BASE_URL=http:./dev.db
 RAWG_API_KEY=tu_clave_rawg_api
 ```
 
@@ -149,7 +149,7 @@ game_recap/
 ## 👨‍💻 Autor
 
 - Jorge A. Herrero Santana  
-- GitHub: [@Jorgel01](https://github.com/Jorgel01)
+- GitHub: [@Jorgell01](https://github.com/Jorgell01)
 
 ---
 
