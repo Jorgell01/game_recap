@@ -46,7 +46,7 @@ npm install
 PORT=3000
 JWT_SECRET=una_clave_secreta
 STEAM_API_KEY=tu_clave_steam
-BASE_URL=http:./dev.db
+BASE_URL=file:./dev.db
 RAWG_API_KEY=tu_clave_rawg_api
 ```
 
